@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кымбаттын 60 жаш мааракеси</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  color: #624a2d;
+  background: #faf5eb;
+}
+
+.screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse, #fffdf7, #f2e5cc);
+}
+
+.ornament {
+  color: #b38b4a;
+  font-size: 35px;
+  letter-spacing: 8px;
+  margin: 15px;
+}
+
+.subtitle {
+  color: #a47c3c;
+  letter-spacing: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.envelope {
+  position: relative;
+  width: min(350px, 85vw);
+  height: 245px;
+  margin: 25px auto;
+  border: 1px solid #c8a66a;
+  background: #e9d7b4;
+  box-shadow: 0 15px 35px #8e71342b;
+  cursor: pointer;
+  perspective: 800px;
+}
+
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(145deg, transparent 49.5%, #d6bd8e 50%, transparent 50.5%),
+    linear-gradient(35deg, transparent 49.5%, #d6bd8e 50%, transparent 50.5%),
+    #f8edda;
+}
+
+.flap {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 60%;
+  background: #e2c99a;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform 1s;
+  z-index: 2;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+}
+
+.seal {
+  position: absolute;
+  z-index: 3;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #a78040;
+  color: white;
+  border: 3px double #f5e5c5;
+  display: grid;
+  place-items: center;
+  font-size: 27px;
+  transition: opacity .5s;
+}
+
+.envelope.open .seal {
+  opacity: 0;
+}
+
+.envelope-title {
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  left: 8%;
+  right: 8%;
+  font-size: 23px;
+  line-height: 1.4;
+  color: #89652e;
+}
+
+.hint {
+  color: #8d7655;
+  font-size: 14px;
+}
+
+#invitation {
+  display: none;
+  min-height: 100vh;
+  padding: 35px 16px;
+  background: #faf5eb;
+}
+
+.card {
+  max-width: 700px;
+  margin: auto;
+  padding: 45px 25px;
+  text-align: center;
+  background: #fffdf8;
+  border: 2px solid #c8a66a;
+  outline: 1px solid #e3d1ad;
+  outline-offset: -9px;
+  box-shadow: 0 15px 40px #92774718;
+}
+
+h1 {
+  font-size: clamp(40px, 9vw, 64px);
+  color: #a78040;
+  font-weight: normal;
+  margin: 20px 0 8px;
+}
+
+h2 {
+  color: #a78040;
+  font-size: 23px;
+  font-weight: normal;
+}
+
+.divider {
+  color: #b38b4a;
+  font-size: 30px;
+  margin: 22px;
+}
+
+.invite-text {
+  font-size: 19px;
+  line-height: 1.9;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 30px 0;
+}
+
+.detail {
+  flex: 1 1 130px;
+  padding: 18px 10px;
+  border: 1px solid #e4d2ae;
+  background: #fffaf0;
+  line-height: 1.7;
+}
+
+.detail strong {
+  display: block;
+  color: #a78040;
+  margin-bottom: 8px;
+}
+
+.address {
+  padding: 20px 8px;
+  border-top: 1px solid #e4d2ae;
+  border-bottom: 1px solid #e4d2ae;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.music-button {
+  margin-top: 25px;
+  padding: 12px 22px;
+  border: 1px solid #b38b4a;
+  border-radius: 30px;
+  background: #fff8e9;
+  color: #89652e;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .envelope {
+    height: 220px;
+  }
+
+  .card {
+    padding: 35px 20px;
+  }
+
+  .invite-text {
+    font-size: 17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section class="screen" id="cover">
+  <div class="ornament">❧ ❦ ❧</div>
+  <div class="subtitle">Сиз үчүн өзгөчө чакыруу</div>
+
+  <button class="envelope" id="envelope"
+          aria-label="Конвертти ачуу">
+    <div class="envelope-body"></div>
+
+    <div class="envelope-title">
+      Кымбаттын 60 жаш мааракесине чакыруу
+    </div>
+
+    <div class="flap"></div>
+    <div class="seal">❦</div>
+  </button>
+
+  <div class="hint">✧ Конвертти басып ачыңыз ✧</div>
+  <div class="ornament">❧ ❦ ❧</div>
+</section>
+
+<section id="invitation">
+  <div class="card">
+
+    <div class="ornament">❧ ❦ ❧</div>
+
+    <div class="subtitle">Ак дасторконго чакыруу</div>
+
+    <h1>Кымбат</h1>
+    <h2>60 жаш мааракеси</h2>
+
+    <div class="divider">❦</div>
+
+    <p class="invite-text">
+      Урматтуу туугандар, куда-сөөктөр,
+      достор жана жакындар!<br><br>
+
+      Сиздерди апабыз Кымбаттын 60 жаш
+      мааракесине арналган ак дасторконубуздун
+      сыйлуу коногу болууга чакырабыз!
+    </p>
+
+    <div class="divider">✧ ❦ ✧</div>
+
+    <div class="details">
+      <div class="detail">
+        <strong>❦ КҮНҮ</strong>
+        16-ноябрь<br>2026-жыл
+      </div>
+
+      <div class="detail">
+        <strong>◷ УБАКТЫСЫ</strong>
+        Саат<br>16:00
+      </div>
+
+      <div class="detail">
+        <strong>⌖ ШААР</strong>
+        Бишкек
+      </div>
+    </div>
+
+    <div class="address">
+      <strong>ДАРЕГИ</strong><br>
+      7-Апрель көчөсү,<br>
+      Алматинская көчөсүнөн Ахунбаев көчөсүндөгү
+      айланма жолго жетпей, оң тарапта.
+    </div>
+
+    <p class="invite-text">
+      Сиздерди ак дасторконубузда
+      көргөнүбүзгө кубанычтабыз!
+    </p>
+
+    <div class="ornament">❧ ❦ ❧</div>
+
+    <button class="music-button" id="musicButton">
+      ♫ Музыканы токтотуу
+    </button>
+
+  </div>
+</section>
+
+<audio id="music" src="music.mp3" loop></audio>
+
+<script>
+const envelope = document.getElementById("envelope");
+const cover = document.getElementById("cover");
+const invitation = document.getElementById("invitation");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+
+let playing = false;
+let opened = false;
+
+envelope.addEventListener("click", async () => {
+  if (opened) return;
+  opened = true;
+
+  envelope.classList.add("open");
+
+  try {
+    await music.play();
+    playing = true;
+    musicButton.textContent = "♫ Музыканы токтотуу";
+  } catch (error) {
+    musicButton.textContent = "♫ Музыканы ойнотуу";
+  }
+
+  setTimeout(() => {
+    cover.style.display = "none";
+    invitation.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 1000);
+});
+
+musicButton.addEventListener("click", async () => {
+  if (playing) {
+    music.pause();
+    playing = false;
+    musicButton.textContent = "♫ Музыканы ойнотуу";
+  } else {
+    try {
+      await music.play();
+      playing = true;
+      musicButton.textContent = "♫ Музыканы токтотуу";
+    } catch (error) {
+      musicButton.textContent = "Музыканы текшериңиз";
+    }
+  }
+});
+</script>
+
+</body>
+</html>
