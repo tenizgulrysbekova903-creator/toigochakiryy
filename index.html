@@ -4,17 +4,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кымбаттын 60 жаш мааракеси</title>
+<title>Кымбаттын 60 жаш мааракесине чакыруу</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Georgia, serif;
-  color: #624a2d;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #674d2d;
   background: #faf5eb;
 }
 
@@ -26,20 +24,19 @@ body {
   justify-content: center;
   padding: 25px;
   text-align: center;
-  background:
-    radial-gradient(ellipse, #fffdf7, #f2e5cc);
+  background: radial-gradient(circle, #fffdf8, #eee0c4);
 }
 
 .ornament {
-  color: #b38b4a;
+  color: #b18a4a;
   font-size: 35px;
   letter-spacing: 8px;
-  margin: 15px;
+  margin: 18px;
 }
 
 .subtitle {
-  color: #a47c3c;
-  letter-spacing: 3px;
+  color: #9d773d;
+  letter-spacing: 2px;
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -50,19 +47,31 @@ body {
   height: 245px;
   margin: 25px auto;
   border: 1px solid #c8a66a;
-  background: #e9d7b4;
+  background: #ead8b5;
   box-shadow: 0 15px 35px #8e71342b;
   cursor: pointer;
-  perspective: 800px;
+  overflow: hidden;
+  padding: 0;
 }
 
 .envelope-body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(145deg, transparent 49.5%, #d6bd8e 50%, transparent 50.5%),
-    linear-gradient(35deg, transparent 49.5%, #d6bd8e 50%, transparent 50.5%),
-    #f8edda;
+    linear-gradient(145deg, transparent 49.5%, #d7bd8d 50%, transparent 50.5%),
+    linear-gradient(35deg, transparent 49.5%, #d7bd8d 50%, transparent 50.5%),
+    #f9efdd;
+}
+
+.envelope-title {
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  left: 8%;
+  right: 8%;
+  font-size: 23px;
+  line-height: 1.5;
+  color: #89652e;
 }
 
 .flap {
@@ -98,20 +107,7 @@ body {
   transition: opacity .5s;
 }
 
-.envelope.open .seal {
-  opacity: 0;
-}
-
-.envelope-title {
-  position: absolute;
-  z-index: 1;
-  top: 25%;
-  left: 8%;
-  right: 8%;
-  font-size: 23px;
-  line-height: 1.4;
-  color: #89652e;
-}
+.envelope.open .seal { opacity: 0; }
 
 .hint {
   color: #8d7655;
@@ -202,17 +198,9 @@ h2 {
 }
 
 @media (max-width: 480px) {
-  .envelope {
-    height: 220px;
-  }
-
-  .card {
-    padding: 35px 20px;
-  }
-
-  .invite-text {
-    font-size: 17px;
-  }
+  .envelope { height: 220px; }
+  .card { padding: 35px 20px; }
+  .invite-text { font-size: 17px; }
 }
 </style>
 </head>
@@ -226,11 +214,9 @@ h2 {
   <button class="envelope" id="envelope"
           aria-label="Конвертти ачуу">
     <div class="envelope-body"></div>
-
     <div class="envelope-title">
       Кымбаттын 60 жаш мааракесине чакыруу
     </div>
-
     <div class="flap"></div>
     <div class="seal">❦</div>
   </button>
@@ -241,9 +227,7 @@ h2 {
 
 <section id="invitation">
   <div class="card">
-
     <div class="ornament">❧ ❦ ❧</div>
-
     <div class="subtitle">Ак дасторконго чакыруу</div>
 
     <h1>Кымбат</h1>
@@ -254,7 +238,6 @@ h2 {
     <p class="invite-text">
       Урматтуу туугандар, куда-сөөктөр,
       достор жана жакындар!<br><br>
-
       Сиздерди апабыз Кымбаттын 60 жаш
       мааракесине арналган ак дасторконубуздун
       сыйлуу коногу болууга чакырабыз!
@@ -294,13 +277,16 @@ h2 {
     <div class="ornament">❧ ❦ ❧</div>
 
     <button class="music-button" id="musicButton">
-      ♫ Музыканы токтотуу
+      ♫ Музыканы ойнотуу
     </button>
-
   </div>
 </section>
 
-<audio id="music" src="music.mp3" loop></audio>
+<!-- Музыка файлы GitHub'да ушул ат менен турушу керек -->
+<audio id="music"
+  src="Bek.Borbiev%20.mp3.mpeg"
+  preload="auto"
+  loop></audio>
 
 <script>
 const envelope = document.getElementById("envelope");
@@ -312,19 +298,23 @@ const musicButton = document.getElementById("musicButton");
 let playing = false;
 let opened = false;
 
-envelope.addEventListener("click", async () => {
-  if (opened) return;
-  opened = true;
-
-  envelope.classList.add("open");
-
+async function playMusic() {
   try {
     await music.play();
     playing = true;
     musicButton.textContent = "♫ Музыканы токтотуу";
   } catch (error) {
-    musicButton.textContent = "♫ Музыканы ойнотуу";
+    playing = false;
+    musicButton.textContent = "♫ Музыканы кайра ойнотуу";
   }
+}
+
+envelope.addEventListener("click", async () => {
+  if (opened) return;
+  opened = true;
+
+  envelope.classList.add("open");
+  await playMusic();
 
   setTimeout(() => {
     cover.style.display = "none";
@@ -339,16 +329,15 @@ musicButton.addEventListener("click", async () => {
     playing = false;
     musicButton.textContent = "♫ Музыканы ойнотуу";
   } else {
-    try {
-      await music.play();
-      playing = true;
-      musicButton.textContent = "♫ Музыканы токтотуу";
-    } catch (error) {
-      musicButton.textContent = "Музыканы текшериңиз";
-    }
+    await playMusic();
   }
+});
+
+music.addEventListener("error", () => {
+  musicButton.textContent = "Музыка файлын текшериңиз";
 });
 </script>
 
 </body>
 </html>
+
